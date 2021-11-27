@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Boilerplate
+namespace Launchpad
 {
     public class Startup
     {
@@ -24,6 +25,15 @@ namespace Boilerplate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            
+            services.AddDbContext<Launchpad.Models.UserLogin>(); // Registers as a service
+            services.AddDbContext<Launchpad.Models.PublicManager>(); // Registers as a service
+            services.AddDbContext<Launchpad.Models.AdminMangager>(); // Registers as a service
+
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +50,9 @@ namespace Boilerplate
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            app.UseSession(); // Add session support
+            
             app.UseStaticFiles();
 
             app.UseRouting();

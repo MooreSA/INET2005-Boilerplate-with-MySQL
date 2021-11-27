@@ -1,0 +1,40 @@
+@model UserLogin
+
+<form asp-controller="Login" asp-action="Register">
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col">
+                <h2>Register</h2>
+                Please enter your Username and Password...
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mt-2">
+                <div class="form-group">
+                    <label asp-for="@Model.registerForm.username">Username:</label>
+                    <input type="text" asp-for="@Model.registerForm.username" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="@Model.registerForm.username"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.registerForm.password">Password:</label>
+                    <input type="password" asp-for="@Model.registerForm.password" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="@Model.registerForm.password"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.registerForm.passwordConfirm">Confirm Password:</label>
+                    <input type="password" asp-for="@Model.registerForm.passwordConfirm" class="form-control" id="passwordConfirm">
+                    <span class="text-danger" asp-validation-for="@Model.registerForm.passwordConfirm"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" text="Submit" class="btn btn-warning" />
+                    <span class="text-warning" style="margin-left:5px;">@ViewData["feedback"]</span>
+                    <span class="text-danger">@ViewBag.Error</span>
+                </div>
+                <div class="form-group">
+                    <a asp-controller="Login" asp-action="Index">Login</a>`
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

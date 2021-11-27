@@ -1,0 +1,98 @@
+@model AdminMangager
+
+<div class="container">
+    <div class="row">
+        <h1>Launchpad</h1>
+    </div>
+    <div class="row">
+        <a asp-controller="admin" asp-action="logout">Logout</a>
+    </div>
+    <div class="row text-danger">@ViewBag.Error</div>
+
+    <div class="row text-warning">@TempData["Message"]</div>
+    <div class="row">
+        <span id="logout-warning" class="text-danger hidden">No Activity for 18 minutes: You will be logged out after 20 minutes of inactivity</span>
+    </div>
+    <div class="row mt-3">
+        @foreach (Category category in @Model.GetCategories()) {
+            <div class="col-auto">
+                <div class="row align-items-center">
+                    <div class="mr-2">
+                        <a asp-controller="Admin" class="fas fa-edit" asp-action="EditCategory" asp-route-id="@category.id"></a>
+                        <a asp-controller="Admin" class="fas fa-plus-square" asp-action="AddLink" asp-route-id="@category.id"></a>
+                    </div>
+                    <h4>
+                        @category.categoryName
+                    </h4>
+                </div>
+                <div>
+                    @if (@Model.GetPinnedCount(category) > 0) {
+                        @foreach (Link link in category.links){
+                            @if (link.pinned) {
+                                <div>
+                                    <a 
+                                        asp-controller="Admin"
+                                        asp-action="EditLink"
+                                        asp-route-id="@link.id"
+                                        class="fas fa-edit">
+                                    </a>
+                                    <a 
+                                        asp-controller="Admin"
+                                        asp-action="DeleteLink"
+                                        asp-route-id="@link.id"
+                                        class="fas fa-trash-alt">
+                                    </a>
+                                    <a target="_blank" href="@link.url">
+                                        <img src="https://www.google.com/s2/favicons?domain_url=@link.url">@link.title
+                                    </a>
+                                </div>
+                            }
+                        }
+                        <div>------------</div>
+                        @foreach (Link link in category.links) {
+                            @if (!link.pinned) {
+                                <div>
+                                    <a 
+                                        asp-controller="Admin"
+                                        asp-action="EditLink"
+                                        asp-route-id="@link.id"
+                                        class="fas fa-edit">
+                                    </a>
+                                    <a 
+                                        asp-controller="Admin"
+                                        asp-action="DeleteLink"
+                                        asp-route-id="@link.id"
+                                        class="fas fa-trash-alt">
+                                    </a>
+                                    <a target="_blank" href="@link.url">
+                                        <img src="https://www.google.com/s2/favicons?domain_url=@link.url"> @link.title
+                                    </a>
+                                </div>
+                            }
+                        }
+                    } else {
+                        @foreach (Link link in category.links) {
+                            <div>
+                                    <a 
+                                        asp-controller="Admin"
+                                        asp-action="EditLink"
+                                        asp-route-id="@link.id"
+                                        class="fas fa-edit">
+                                    </a>
+                                    <a 
+                                        asp-controller="Admin"
+                                        asp-action="DeleteLink"
+                                        asp-route-id="@link.id"
+                                        class="fas fa-trash-alt">
+                                    </a>
+                                <a target="_blank" href="@link.url">
+                                    <img src="https://www.google.com/s2/favicons?domain_url=@link.url">@link.title
+                                    </a>
+                                </div>
+                        }
+                    }
+                </div>
+            </div>   
+        }
+    </div>
+</div>

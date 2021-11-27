@@ -1,0 +1,35 @@
+@model UserLogin
+
+<form asp-controller="Login" asp-action="Login">
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col">
+                <h2>Login</h2>
+                Please enter your Username and Password...
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mt-2">
+                <div class="form-group">
+                    <label asp-for="@Model.loginForm.username"></label>
+                    <input type="text" asp-for="@Model.loginForm.username" class="form-control" value="@ViewBag.NewUser"/>
+                    <span class="text-danger" asp-validation-for="@Model.loginForm.username"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.loginForm.password"></label>
+                    <input type="password" asp-for="@Model.loginForm.password" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="@Model.loginForm.password"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" text="Submit" class="btn btn-warning" />
+                    <span class="text-warning" style="margin-left:5px;">@ViewData["feedback"]</span>
+                </div>
+                <div class="form-group">
+                    <span class="text-danger">@ViewBag.Error</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a asp-controller="Login" asp-action="Register">No Account? Register Here</a>
+</form>

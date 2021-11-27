@@ -1,14 +1,20 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Boilerplate.Models;
+using Launchpad.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace Boilerplate.Controllers {
+namespace Launchpad.Controllers {
 
     public class HomeController : Controller {
 
-        public IActionResult Index() {
-            return View();
+        private PublicManager publicManager;
+
+        public HomeController(PublicManager publicManager) {
+            this.publicManager = publicManager; // Dependency injection
         }
 
+        public IActionResult Index() {
+            return View(publicManager);
+        }
     }
 }

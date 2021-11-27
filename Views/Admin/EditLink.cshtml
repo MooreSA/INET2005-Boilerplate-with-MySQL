@@ -1,0 +1,57 @@
+@model AdminMangager
+
+<div class="container">
+    <div class="row">
+        <h1>Launchpad Administration</h1>
+    </div>
+    <div class="row">
+        <a asp-controller="admin" asp-action="logout">Logout</a>
+    </div>
+    <div class="row">
+        <h2>Edit Link</h2>
+    </div>
+    <div class="row">
+        <p>Edit Link info</p>
+    </div>
+    <div class="row">
+        <form asp-controller="Admin" asp-action="EditLink" asp-route-id="@Model.linkId" method="post">
+            <div class="form-group">
+                <select 
+                    asp-for="@Model.linkForm.categoryId"
+                    asp-items="@Model.CategorySelectList"
+                    class="custom-select"
+                    value="@Model.linkForm.categoryId"
+                ></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.linkForm.title"></label>
+                <input type="text" asp-for="@Model.linkForm.title" class="form-control"/>
+                <span class="text-danger" asp-validation-for="@Model.linkForm.title"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.linkForm.url"></label>
+                <input type="url" asp-for="@Model.linkForm.url" class="form-control"/>
+                <span class="text-danger" asp-validation-for="@Model.linkForm.url"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.linkForm.pinned"></label>
+                <input type="checkbox" asp-for="@Model.linkForm.pinned" class="form-checkbox">
+                <span class="text-danger" asp-validation-for="@Model.linkForm.pinned"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" text="Edit" class="btn btn-warning">
+
+            </div>
+            <div class="form-group">
+                <span class="text-danger">@ViewData["feedback"]</span>
+                <span class="text-danger">@ViewBag.Error</span>
+            </div>
+        </form>  
+    </div>
+    <div class="row">
+        <a asp-controller="Admin" asp-action="Index"><button class="btn btn-warning">Cancel</button></a>
+    </div>
+    <div class="row">
+        <span id="logout-warning" class="text-danger hidden">No Activity for 18 minutes: You will be logged out after 20 minutes of inactivity</span>
+    </div>
+</div>

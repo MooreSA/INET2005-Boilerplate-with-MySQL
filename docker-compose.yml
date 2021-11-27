@@ -1,7 +1,21 @@
-version: '3.7'
+version: "3.7"
 
 services:
-  
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: dotnet-server
+    container_name: my-dotnet-server
+    volumes:
+      - ./:/source/aspnetapp
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
   mysql:
     build:
       context: ./mysql
@@ -14,17 +28,20 @@ services:
       - 3306:3306
     volumes:
       - data-volume:/var/lib/mysql
-
+    # LESSON PLAN NOTES
     # these variables could be stored in an external .env file as well
     # w0090347 will automatically be set to full access to sean_dotnetcoreSamples
     environment:
       MYSQL_ROOT_PASSWORD: nscc
-      MYSQL_DATABASE: dotnetcoreSamples
-      MYSQL_USER: user
-      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: db_Launchpad
+      MYSQL_USER: launch_usr
+      MYSQL_PASSWORD: correct_horse_battery_staple
     networks:
       - app-network
 
+  # is a scaled down version of phpmyadmin for admin work with MySQL database
+  # in order to use this once deployed to AWS you will need to open port 8080
+  # when using this on AWS set the source in security group to be your own IP since the connection is not https. This way only your IP can connect to this port
   adminer:
     image: adminer
     container_name: my-adminer
@@ -35,10 +52,10 @@ services:
       - app-network
 
 networks:
-    app-network:
-        driver: bridge
+  app-network:
+    driver: bridge
 
 volumes:
-    data-volume:
-    web-root:
-      driver: local
+  data-volume:
+  web-root:
+    driver: local
